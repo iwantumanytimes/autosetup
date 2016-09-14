@@ -2,5 +2,5 @@ echo "...test...."
 
 if  [find / -name "setuptools"];then
   echo "yes"
-else:
+else
   echo "no"
