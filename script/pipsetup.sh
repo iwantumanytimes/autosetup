@@ -1,7 +1,9 @@
 #check if the supervisor has been setup
+model_superviosr_config_add=https://raw.githubusercontent.com/iwantumanytimes/autosetup/master/config/svc/supervisor.conf
+svc_supervisor_ini_config=https://raw.githubusercontent.com/iwantumanytimes/autosetup/master/config/svc/svc.ini
 installpip()
 {
-    echo '...you will  steup  python pip...'
+    echo '...You will  steup  python pip...'
     pipversiondefault=1.5.5
     yum install python-setuptools
     wget --no-check-certificate https://github.com/pypa/pip/archive/$pipversiondefault.tar.gz
@@ -12,15 +14,24 @@ installpip()
 installsupervisor()
 {
     echo  "installing ...."
-    echo '...You will  steup  supervisor...'
+    echo  '...You will  steup  supervisor...'
     file="supervisor.conf"
     cd /etc
     if [  -f "$file" ]; then
-        echo "supervisor has been  setup,exiting..."
+        echo "...supervisor has been  setup,exiting..."
         exit
     else
         pip install supervisor
-        echo_supervisord_conf >/etc/supervisor.conf
+        cd  /etc
+        wget model_superviosr_config_add
+    
+        cd /root
+        mkdir  italk_svc_process_config
+        cd     italk_svc_process_config
+        wget svc_supervisor_ini_config
+        echo "...starting supervisord service..."
+    
+        supervisord  -c  /etc/supervisor.conf
     fi
 }
 installpip
